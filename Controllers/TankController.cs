@@ -6,53 +6,55 @@ namespace TankToys.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TankController : Controller
+public class TankController(TankService tankService) : Controller
 {
+    private readonly TankService _tankService = tankService;
+
     [HttpGet]
     [Route("{id}")]
     public Tank GetTankById(string id)
     {
-        return TankService.GetTankById(id);
+        return _tankService.GetTankById(id);
     }
 
     [HttpGet]
     [Route("creator/{address}")]
     public Tank[] GetTanksByCreatorAddress(string address)
     {
-        return TankService.GetTanksByCreatorAddress(address);
+        return _tankService.GetTanksByCreatorAddress(address);
     }
 
     [HttpGet]
     [Route("bullet/{bulletId}")]
     public Tank[] GetTanksByBullet(int bulletId)
     {
-        return TankService.GetTanksByBullet(bulletId);
+        return _tankService.GetTanksByBullet(bulletId);
     }
 
     [HttpGet]
     [Route("cannon/{cannonId}")]
     public Tank[] GetTanksByCannon(int cannonId)
     {
-        return TankService.GetTanksByCannon(cannonId);
+        return _tankService.GetTanksByCannon(cannonId);
     }
 
     [HttpGet]
     [Route("shell/{shellId}")]
     public Tank[] GetTanksByShell(int shellId)
     {
-        return TankService.GetTanksByShell(shellId);
+        return _tankService.GetTanksByShell(shellId);
     }
 
     [HttpGet]
     [Route("trackWheel/{trackWheelId}")]
     public Tank[] GetTanksByTrackWheel(int trackWheelId)
     {
-        return TankService.GetTanksByTrackWheel(trackWheelId);
+        return _tankService.GetTanksByTrackWheel(trackWheelId);
     }
 
     [HttpPost]
     public bool InsertTank(Tank requestTank){
-        if (TankService.InsertTank(requestTank)) {
+        if (_tankService.InsertTank(requestTank)) {
             return true;
         }
 		return false;
@@ -60,7 +62,7 @@ public class TankController : Controller
 
     [HttpPut]
     public bool EditTank(Tank requestTank){
-        if (TankService.EditTank(requestTank)) {
+        if (_tankService.EditTank(requestTank)) {
             return true;
         }
 		return false;
@@ -70,7 +72,7 @@ public class TankController : Controller
     [Route("{tankId}")]
     public bool DeleteTank(int tankId)
     {
-        if (TankService.DeleteTank(tankId)) {
+        if (_tankService.DeleteTank(tankId)) {
             return true;
         }
 		return false;

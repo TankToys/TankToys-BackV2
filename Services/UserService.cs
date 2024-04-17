@@ -1,20 +1,21 @@
 
 using TankToys.Models;
-using DB=TankToys.Services.DatabaseService;
 
 namespace TankToys.Services;
 
-public static class UserService
+public class UserService(DatabaseService db)
 {
-    public static List<User> GetAllUsers()
+    private readonly DatabaseService DB = db;
+
+    public List<User> GetAllUsers()
     {
         return null;
     }
 
-    public static User GetUserByAddress(string address)
+    public User GetUserByAddress(string address)
     {
         User user = new User();
-        DB.SelectByKey(user, address);
+        DB.SelectByKey<User>(address);
         if (user.Username == "default")
         {
             user.Username = null;
@@ -22,10 +23,10 @@ public static class UserService
         return user;
     }
 
-    public static User GetUserByAddress(Address address)
+    public User GetUserByAddress(Address address)
     {
         User user = new User();
-        DB.SelectByKey(user, address.GetAddress());
+        DB.SelectByKey<User>(address.GetAddress());
         if (user.Username == "default")
         {
             user.Username = null;
@@ -33,19 +34,19 @@ public static class UserService
         return user;
     }
 
-    public static bool InsertUser(User user)
+    public bool InsertUser(User user)
     {
-        return DB.Insert(user);
+        return DB.Insert(user) == 1;
     }
 
-    public static bool EditUser(User user)
+    public bool EditUser(User user)
     {
-        return DB.Update(user, user.Address);
+        return DB.Update(user, user.Id);
     }
 
-    public static bool DeleteUser(Address address)
+    public bool DeleteUser(Address address)
     {
         User user = new User();
-        return DB.Delete(user, address.GetAddress());
+        return DB.Delete(user) == 1;
     }
 }

@@ -2,11 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using TankToys.Interfaces;
 
 namespace TankToys.Models;
 
 [Table("rooms")]
-public class Room
+public class Room : ITable
 {   
     [Key]
     [JsonProperty("id")]

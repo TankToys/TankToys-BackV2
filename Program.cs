@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using TankToys.Database;
+using TankToys.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,8 @@ var configuration = new ConfigurationBuilder()
            .Build();
 
 // Add services to the container.
+builder.Services.AddScoped<DatabaseService, DatabaseService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

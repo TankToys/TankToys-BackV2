@@ -1,25 +1,26 @@
 using TankToys.Models;
-using DB=TankToys.Services.DatabaseService;
 
 namespace TankToys.Services;
 
-public static class RoomService
+public class RoomService(DatabaseService db)
 {
-    public static Room GetRoomById(string id) {
+    private readonly DatabaseService DB = db;
+
+    public Room GetRoomById(string id) {
         Room room = new() { Id = id, GuestList = [], Host = null, GameMode = GameModes.GAMEMODE3 };
-        DB.SelectByKey(room, id);
+        DB.SelectByKey<Room>(id);
         return room;
     }
 
-    public static bool InsertRoom(Room room){
-        return DB.Insert(room);
+    public bool InsertRoom(Room room){
+        return DB.Insert(room) == 1;
     }
 
-    public static bool EditRoom(Room room) {
+    public bool EditRoom(Room room) {
         return DB.Update(room, room.Id);
     }
 
-    public static bool DeleteRoom(Room room) {
-        return DB.Delete(room, room.Id);
+    public bool DeleteRoom(Room room) {
+        return DB.Delete(room) == 1;
     }
 }

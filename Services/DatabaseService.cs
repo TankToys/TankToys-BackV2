@@ -1,43 +1,57 @@
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using TankToys.Database;
+using TankToys.Interfaces;
 using TankToys.Models;
 
 namespace TankToys.Services;
 
-public static class DatabaseService
+public class DatabaseService(AppDbContext context)
 {
-    public static bool Delete<T>(T model)
+    private readonly AppDbContext _context = context;
+
+    public int Delete<T>(T entity) where T : class
     {
         var ctx = new AppDbContext();
-        throw new NotImplementedException();
+        var dbEntity = ResolveEntity<T>(ctx);
+        dbEntity.Remove(entity);
+        return ctx.SaveChanges();
     }
 
-    public static bool Insert(object room)
+    public int Insert<T>(T entity) where T : class
     {
         var ctx = new AppDbContext();
-        ctx.Users.Add(new User());
-        ctx.SaveChanges();
-        return true;
+        var dbEntity = ResolveEntity<T>(ctx);
+        dbEntity.Add(entity);
+        return ctx.SaveChanges();
     }
 
-    public static void SelectByKey(object room, string id)
+    public T SelectByKey<T>(string id) where T : class, ITable
     {
-        throw new NotImplementedException();
-    }
-    
-    public static Tank[] SelectByKey(Tank tank, string v, int trackWheelId)
-    {
-        throw new NotImplementedException();
+        var dbEntity = ResolveEntity<T>(_context);
+        var itono = dbEntity.Select(j => j.Id);
+        var jamon = dbEntity.Where(j => itono.Contains(id));
+        return jamon.FirstOrDefault();
     }
 
-    public static Tank[] SelectByKey(Tank tank, string v, string trackWheelId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool Update(object room, object value)
+    public bool Update(object room, object value)
     {
         throw new NotImplementedException();
     }
 
+    public DbSet<T> ResolveEntity<T>(AppDbContext ctx) where T : class
+    {
+        var contextType = ctx.GetType();
+        var fields = contextType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        foreach (var field in fields)
+        {
+            if (field.Name.Contains(typeof(T).Name))
+            {
+                return (DbSet<T>)field.GetValue(ctx);
+            }
+        }
+
+        return null;
+    }
     
 }

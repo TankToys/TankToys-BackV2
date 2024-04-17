@@ -3,9 +3,13 @@ using TankToys.Models;
 
 namespace TankToys.Services;
 
-public static class MultiplayerService
+public class MultiplayerService(DatabaseService db, RoomService rooms)
 {
-    public static string CreateRoom(Address host, GameModes gamemode)
+    private readonly DatabaseService DB = db;
+
+    private readonly RoomService Rooms = rooms;
+
+    public string CreateRoom(Address host, GameModes gamemode)
     {
         List<string> guestList = [host.GetAddress()];
 
@@ -17,11 +21,11 @@ public static class MultiplayerService
             GameMode = gamemode
         };
                 
-        return RoomService.InsertRoom(thisRoom) ? thisRoom.Id : "";
+        return Rooms.InsertRoom(thisRoom) ? thisRoom.Id : "";
     }
-    public static bool AddGuestToRoom(string roomId, Address guest)
+    public bool AddGuestToRoom(string roomId, Address guest)
     {
-        Room thisRoom = RoomService.GetRoomById(roomId);
+        Room thisRoom = Rooms.GetRoomById(roomId);
 
         if (thisRoom.Host == null) {
             return false;
@@ -37,13 +41,13 @@ public static class MultiplayerService
 
         thisRoom.GuestList.Add(guest.GetAddress());
 
-        if (RoomService.EditRoom(thisRoom)) {
+        if (Rooms.EditRoom(thisRoom)) {
             return true;
         }
         return false;
     }
 
-    public static bool CloseRoom(object roomId, Address address)
+    public bool CloseRoom(object roomId, Address address)
     {
         throw new NotImplementedException();
     }

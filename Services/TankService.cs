@@ -1,67 +1,68 @@
 using TankToys.Models;
-using DB=TankToys.Services.DatabaseService;
 
 namespace TankToys.Services;
 
-public static class TankService
+public class TankService(DatabaseService db)
 {
-    public static List<Tank> GetAllTanks(){
+    private readonly DatabaseService DB = db;
+
+    public List<Tank> GetAllTanks(){
         return null;
     }
     
-    public static User JSONToTank(String tankString)
+    public User JSONToTank(string tankString)
     {
         return null;
     }
 
-    public static Tank GetTankById(string id)
+    public Tank GetTankById(string id)
     {
         Tank tank = new();
-        DB.SelectByKey(tank, id);
+        DB.SelectByKey<Tank>(id);
         return tank;
     }
 
-    public static Tank[] GetTanksByCreatorAddress(string creator)
+    public Tank[] GetTanksByCreatorAddress(string creator)
     {
         Tank tank = new();
-        return (Tank[])DB.SelectByKey(tank, "creator", creator);
+        return null;
     }
 
-    public static Tank[] GetTanksByBullet(int bulletId)
+    public Tank[] GetTanksByBullet(int bulletId)
     {
         Tank tank = new();
-        return (Tank[])DB.SelectByKey(tank, "bullet", bulletId);
+        return null;
     }
 
-    public static Tank[] GetTanksByCannon(int cannonId)
+    public Tank[] GetTanksByCannon(int cannonId)
     {
         Tank tank = new();
-        return (Tank[])DB.SelectByKey(tank, "cannon", cannonId);
+        return null;
     }
 
-    public static Tank[] GetTanksByShell(int shellId)
+    public Tank[] GetTanksByShell(int shellId)
     {
         Tank tank = new();
-        return (Tank[])DB.SelectByKey(tank, "shell", shellId);
+        return null;
     }
 
-    public static Tank[] GetTanksByTrackWheel(int trackWheelId)
+    public Tank[] GetTanksByTrackWheel(int trackWheelId)
     {
         Tank tank = new();
-        return (Tank[])DB.SelectByKey(tank, "trackwheel", trackWheelId);
+        return null;
     }
 
-    public static bool InsertTank(Tank tank){
-        return DB.Insert(tank);
+    public bool InsertTank(Tank tank){
+        return DB.Insert(tank) == 1;
     }
 
-    public static bool EditTank(Tank tank) {
+    public bool EditTank(Tank tank) {
         return DB.Update(tank, tank.Id);
     }
 
-    public static bool DeleteTank(int id)
+    public bool DeleteTank(int id)
      {
         Tank tank = new();
-        return DB.Delete(tank, id);
+        return DB.Delete(tank) == 1;
     }
 }

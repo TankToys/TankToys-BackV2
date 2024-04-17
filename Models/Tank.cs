@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
+using TankToys.Interfaces;
 
 namespace TankToys.Models;
 
-public class Tank
+public class Tank : ITable
 {
     [JsonProperty("id")]
-    public int Id  { get; set; }
+    public string Id  { get; set; }
 
     [JsonProperty("bullet")]
     public Bullet Bullet  { get; set; }

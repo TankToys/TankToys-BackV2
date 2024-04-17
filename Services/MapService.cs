@@ -1,35 +1,36 @@
-using DB=TankToys.Services.DatabaseService;
 using TankToys.Models;
 
 namespace TankToys.Services;
 
-public static class MapService
+public class MapService(DatabaseService db)
 {
-    public static List<Map> GetAllMaps(){
+    private readonly DatabaseService DB = db;
+
+    public List<Map> GetAllMaps(){
         
         return null;
     }
 
-    public static Map GetMapById(string id){
+    public Map GetMapById(string id){
         Map map = new();
-        DB.SelectByKey(map, id);
+        DB.SelectByKey<Map>(id);
         return map;
     }
 
-    public static bool InsertMap(Map map){
-        return DB.Insert(map);
+    public bool InsertMap(Map map){
+        return DB.Insert(map) == 1;
     }
 
-    public static bool EditMap(Map map) {
+    public bool EditMap(Map map) {
         return DB.Update(map, map.Id);
     }
 
-    public static bool DeleteMap(int id) {
+    public bool DeleteMap(int id) {
         Map map = new();
-        return DB.Delete(map, id);
+        return DB.Delete(map) ==  1;
     }
 
-    public static Map[] GetMapsByCreatorAddress(string address) {
+    public Map[] GetMapsByCreatorAddress(string address) {
         // TODO Auto-generated method stub
        
         throw new NotImplementedException();

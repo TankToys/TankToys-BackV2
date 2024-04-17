@@ -7,24 +7,26 @@ namespace TankToys.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MapController : Controller
+public class MapController(MapService mapService) : Controller
 {
+    private readonly MapService _mapService;
+
     [HttpGet]
     [Route("{id}")]
     public Map GetMapById(string id)
     {
-        return MapService.GetMapById(id);
+        return _mapService.GetMapById(id);
     }
 
     [HttpGet]
     public Map[] GetMapsByCreatorAddress(string address)
     {
-        return MapService.GetMapsByCreatorAddress(address);
+        return _mapService.GetMapsByCreatorAddress(address);
     }
 
     [HttpPost]
     public bool InsertMap(Map map){
-        if (MapService.InsertMap(map)) {
+        if (_mapService.InsertMap(map)) {
             return true;
         }
         return false;
@@ -32,7 +34,7 @@ public class MapController : Controller
 
     [HttpPut]
     public bool EditMap(Map map){
-        if (MapService.EditMap(map)) {
+        if (_mapService.EditMap(map)) {
             return true;
         }
         return false;
@@ -42,7 +44,7 @@ public class MapController : Controller
     [Route("{id}")]
     public bool DeleteMap(int id)
     {
-        if (MapService.DeleteMap(id)) {
+        if (_mapService.DeleteMap(id)) {
             return true;
         }
         return false;

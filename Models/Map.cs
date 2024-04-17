@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
+using TankToys.Interfaces;
 
 namespace TankToys.Models;
 
-public class Map
+public class Map : ITable 
 {
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     [JsonProperty("arrMap")]
     public ArrayMap ArrMap { get; set; }

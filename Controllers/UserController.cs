@@ -6,20 +6,16 @@ namespace TankToys.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : Controller
+public class UserController(ILogger<UserController> logger, UserService userService) : Controller
 {
-    private readonly ILogger<UserController> _logger;
-
-    public UserController(ILogger<UserController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<UserController> _logger = logger;
+    private readonly UserService _userService = userService;
 
     [HttpGet]
     [Route("{address}")]
     public string GetUserByAddress(string address)
     {
-        User user = UserService.GetUserByAddress(address);
+        User user = _userService.GetUserByAddress(address);
 		if (user.Username != null) {
             //String k = CustomJWT.encode(user);
 			//return k;
@@ -31,7 +27,7 @@ public class UserController : Controller
     [HttpPost]
     public User InsertUser(User requestUser)
     {
-        if (UserService.InsertUser(requestUser)) {
+        if (_userService.InsertUser(requestUser)) {
             return requestUser;
         }
         return null;
@@ -40,7 +36,7 @@ public class UserController : Controller
     [HttpPut]
     public User EditUser(User requestUser)
     {
-        if (UserService.EditUser(requestUser)) {
+        if (_userService.EditUser(requestUser)) {
             return requestUser;
         }
         return null;
@@ -49,7 +45,7 @@ public class UserController : Controller
     [HttpDelete]
     public bool DeleteUser(Address address)
     {
-        if (UserService.DeleteUser(address)) {
+        if (_userService.DeleteUser(address)) {
             return true;
         }
         return false;
