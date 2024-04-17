@@ -7,8 +7,7 @@ public class RoomService(DatabaseService db)
     private readonly DatabaseService DB = db;
 
     public Room GetRoomById(string id) {
-        Room room = new() { Id = id, GuestList = [], Host = null, GameMode = GameModes.GAMEMODE3 };
-        DB.SelectByKey<Room>(id);
+        var room = DB.SelectByKey<Room>(id);
         return room;
     }
 
@@ -17,7 +16,7 @@ public class RoomService(DatabaseService db)
     }
 
     public bool EditRoom(Room room) {
-        return DB.Update(room, room.Id);
+        return DB.Update(room) == 1;
     }
 
     public bool DeleteRoom(Room room) {

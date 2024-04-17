@@ -19,13 +19,13 @@ public class MapController(MapService mapService) : Controller
     }
 
     [HttpGet]
-    public Map[] GetMapsByCreatorAddress(string address)
+    public List<Map> GetMapsByCreatorAddress(string address)
     {
         return _mapService.GetMapsByCreatorAddress(address);
     }
 
     [HttpPost]
-    public bool InsertMap(Map map){
+    public bool InsertMap([FromBody]Map map){
         if (_mapService.InsertMap(map)) {
             return true;
         }

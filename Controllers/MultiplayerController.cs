@@ -14,13 +14,13 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
 
     [HttpPost]
     [Route("createRoom")]
-    public string CreateRoom(RoomBody body){
+    public string CreateRoom([FromBody]RoomBody body){
         return _multiplayerService.CreateRoom(Address.Parse(body.PlayerId), body.Gamemode);
     }
 
     [HttpPost]
     [Route("joinRoom")]
-    public bool AddToRoom(RoomBody body)
+    public bool AddToRoom([FromBody]RoomBody body)
     {
         if (_multiplayerService.AddGuestToRoom(body.RoomId, Address.Parse(body.PlayerId))) {
             return true;
@@ -30,24 +30,31 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
 
     [HttpPost]
     [Route("leaveRoom")]
-    public bool RemoveFromRoom(RoomBody body)
+    public bool RemoveFromRoom([FromBody]RoomBody body)
     {
+        if (_multiplayerService.RemoveGuestFromRoom(body.RoomId, Address.Parse(body.PlayerId)))
+        {
+            HttpContext.Response.StatusCode = 200;    
+            return true;
+        }
+        HttpContext.Response.StatusCode = 400;
         return false;
     }
 
     [HttpPost]
     [Route("closeRoom")]
-    public bool CloseRoom(RoomBody body)
+    public bool CloseRoom([FromBody]RoomBody body)
     {
         if (_multiplayerService.CloseRoom(body.RoomId, Address.Parse(body.PlayerId))) {
             return true;
         }  
+        HttpContext.Response.StatusCode = 400;
         return false;
     }
 
     [HttpPost]
     [Route("data/{roomId}")]
-    public bool Data(string roomId, RoomData room){
+    public bool Data(string roomId, [FromBody]RoomData room){
         if (room.GetRoomId() != -1) { // good room
 			_logger.LogDebug(roomId);
         }

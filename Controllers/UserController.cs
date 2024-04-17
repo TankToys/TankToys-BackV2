@@ -25,7 +25,7 @@ public class UserController(ILogger<UserController> logger, UserService userServ
     }
 
     [HttpPost]
-    public User InsertUser(User requestUser)
+    public User InsertUser([FromBody]User requestUser)
     {
         if (_userService.InsertUser(requestUser)) {
             return requestUser;
@@ -34,7 +34,7 @@ public class UserController(ILogger<UserController> logger, UserService userServ
     }
 
     [HttpPut]
-    public User EditUser(User requestUser)
+    public User EditUser([FromBody]User requestUser)
     {
         if (_userService.EditUser(requestUser)) {
             return requestUser;
@@ -43,6 +43,7 @@ public class UserController(ILogger<UserController> logger, UserService userServ
     }
 
     [HttpDelete]
+    [Route("{address}")]
     public bool DeleteUser(Address address)
     {
         if (_userService.DeleteUser(address)) {

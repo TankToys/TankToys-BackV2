@@ -6,13 +6,13 @@ namespace TankToys.Models.Multiplayer;
 public class PlayerPositions
 {
     [JsonProperty("playerId")]
-    private string playerId;
+    private string playerId { get; set; }
 
     [JsonProperty("xcoord")]
-    private int xCoord;
+    private int xCoord { get; set; }
 
     [JsonProperty("ycoord")]
-    private int yCoord;
+    private int yCoord { get; set; }
 
     
     public PlayerPositions(){

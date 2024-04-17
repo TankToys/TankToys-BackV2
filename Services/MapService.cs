@@ -22,7 +22,7 @@ public class MapService(DatabaseService db)
     }
 
     public bool EditMap(Map map) {
-        return DB.Update(map, map.Id);
+        return DB.Update(map) == 1;
     }
 
     public bool DeleteMap(int id) {
@@ -30,7 +30,7 @@ public class MapService(DatabaseService db)
         return DB.Delete(map) ==  1;
     }
 
-    public Map[] GetMapsByCreatorAddress(string address) {
+    public List<Map> GetMapsByCreatorAddress(string address) {
         // TODO Auto-generated method stub
        
         throw new NotImplementedException();

@@ -12,7 +12,12 @@ var configuration = new ConfigurationBuilder()
 
 // Add services to the container.
 builder.Services.AddScoped<DatabaseService, DatabaseService>();
-
+builder.Services.AddScoped<DatabaseService, DatabaseService>();
+builder.Services.AddScoped<MapService, MapService>();
+builder.Services.AddScoped<MultiplayerService, MultiplayerService>();
+builder.Services.AddScoped<RoomService, RoomService>();
+builder.Services.AddScoped<TankService, TankService>();
+builder.Services.AddScoped<UserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

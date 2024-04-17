@@ -19,41 +19,42 @@ public class TankController(TankService tankService) : Controller
 
     [HttpGet]
     [Route("creator/{address}")]
-    public Tank[] GetTanksByCreatorAddress(string address)
+    public List<Tank> GetTanksByCreatorAddress(string address)
     {
+        
         return _tankService.GetTanksByCreatorAddress(address);
     }
 
     [HttpGet]
     [Route("bullet/{bulletId}")]
-    public Tank[] GetTanksByBullet(int bulletId)
+    public List<Tank> GetTanksByBullet(int bulletId)
     {
         return _tankService.GetTanksByBullet(bulletId);
     }
 
     [HttpGet]
     [Route("cannon/{cannonId}")]
-    public Tank[] GetTanksByCannon(int cannonId)
+    public List<Tank> GetTanksByCannon(int cannonId)
     {
         return _tankService.GetTanksByCannon(cannonId);
     }
 
     [HttpGet]
     [Route("shell/{shellId}")]
-    public Tank[] GetTanksByShell(int shellId)
+    public List<Tank> GetTanksByShell(int shellId)
     {
         return _tankService.GetTanksByShell(shellId);
     }
 
     [HttpGet]
     [Route("trackWheel/{trackWheelId}")]
-    public Tank[] GetTanksByTrackWheel(int trackWheelId)
+    public List<Tank> GetTanksByTrackWheel(int trackWheelId)
     {
         return _tankService.GetTanksByTrackWheel(trackWheelId);
     }
 
     [HttpPost]
-    public bool InsertTank(Tank requestTank){
+    public bool InsertTank([FromBody]Tank requestTank){
         if (_tankService.InsertTank(requestTank)) {
             return true;
         }
@@ -61,7 +62,7 @@ public class TankController(TankService tankService) : Controller
     }
 
     [HttpPut]
-    public bool EditTank(Tank requestTank){
+    public bool EditTank([FromBody]Tank requestTank){
         if (_tankService.EditTank(requestTank)) {
             return true;
         }

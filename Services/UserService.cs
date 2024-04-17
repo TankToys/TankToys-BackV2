@@ -41,7 +41,7 @@ public class UserService(DatabaseService db)
 
     public bool EditUser(User user)
     {
-        return DB.Update(user, user.Id);
+        return DB.Update(user) == 1;
     }
 
     public bool DeleteUser(Address address)

@@ -12,18 +12,16 @@ public class DatabaseService(AppDbContext context)
 
     public int Delete<T>(T entity) where T : class
     {
-        var ctx = new AppDbContext();
-        var dbEntity = ResolveEntity<T>(ctx);
+        var dbEntity = ResolveEntity<T>(_context);
         dbEntity.Remove(entity);
-        return ctx.SaveChanges();
+        return _context.SaveChanges();
     }
 
     public int Insert<T>(T entity) where T : class
     {
-        var ctx = new AppDbContext();
-        var dbEntity = ResolveEntity<T>(ctx);
+        var dbEntity = ResolveEntity<T>(_context);
         dbEntity.Add(entity);
-        return ctx.SaveChanges();
+        return _context.SaveChanges();
     }
 
     public T SelectByKey<T>(string id) where T : class, ITable
@@ -34,9 +32,11 @@ public class DatabaseService(AppDbContext context)
         return jamon.FirstOrDefault();
     }
 
-    public bool Update(object room, object value)
+    public int Update<T>(T entity) where T : class, ITable
     {
-        throw new NotImplementedException();
+        var dbEntity = ResolveEntity<T>(_context);
+        dbEntity.Update(entity);
+        return _context.SaveChanges();
     }
 
     public DbSet<T> ResolveEntity<T>(AppDbContext ctx) where T : class

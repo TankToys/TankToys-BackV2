@@ -4,11 +4,11 @@ namespace TankToys.Models.Multiplayer;
 public class RoomBody {
     
     [JsonProperty("roomId")]
-    public string RoomId;
+    public string RoomId { get; set; }
     
     [JsonProperty("playerId")]
-    public string PlayerId;
+    public string PlayerId { get; set; }
     
     [JsonProperty("gamemode")]
-    public GameModes Gamemode;
+    public GameModes Gamemode { get; set; }
 }

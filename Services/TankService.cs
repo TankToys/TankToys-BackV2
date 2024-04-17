@@ -22,31 +22,31 @@ public class TankService(DatabaseService db)
         return tank;
     }
 
-    public Tank[] GetTanksByCreatorAddress(string creator)
+    public List<Tank> GetTanksByCreatorAddress(string creator)
     {
         Tank tank = new();
         return null;
     }
 
-    public Tank[] GetTanksByBullet(int bulletId)
+    public List<Tank> GetTanksByBullet(int bulletId)
     {
         Tank tank = new();
         return null;
     }
 
-    public Tank[] GetTanksByCannon(int cannonId)
+    public List<Tank> GetTanksByCannon(int cannonId)
     {
         Tank tank = new();
         return null;
     }
 
-    public Tank[] GetTanksByShell(int shellId)
+    public List<Tank> GetTanksByShell(int shellId)
     {
         Tank tank = new();
         return null;
     }
 
-    public Tank[] GetTanksByTrackWheel(int trackWheelId)
+    public List<Tank> GetTanksByTrackWheel(int trackWheelId)
     {
         Tank tank = new();
         return null;
@@ -57,7 +57,7 @@ public class TankService(DatabaseService db)
     }
 
     public bool EditTank(Tank tank) {
-        return DB.Update(tank, tank.Id);
+        return DB.Update(tank) == 1;
     }
 
     public bool DeleteTank(int id)

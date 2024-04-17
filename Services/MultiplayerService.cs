@@ -47,6 +47,23 @@ public class MultiplayerService(DatabaseService db, RoomService rooms)
         return false;
     }
 
+    public bool RemoveGuestFromRoom(string roomId, Address guest)
+    {
+        Room thisRoom = Rooms.GetRoomById(roomId);
+
+        if (thisRoom.Host == null) {
+            return false;
+        }
+
+        if (thisRoom.GuestList.Contains(guest.GetAddress())) {
+            thisRoom.GuestList.Remove(guest.GetAddress());
+            Rooms.EditRoom(thisRoom);
+            return true;
+        }
+
+        return false;
+    }
+
     public bool CloseRoom(object roomId, Address address)
     {
         throw new NotImplementedException();

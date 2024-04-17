@@ -6,10 +6,10 @@ namespace TankToys.Models.Multiplayer;
 public class RoomData
 {
     [JsonProperty("roomId")]
-    private int RoomId;
+    public int RoomId { get; set; }
 
     [JsonProperty("playerPositions")]
-    private List<PlayerPositions> PlayerPositions;
+    public List<PlayerPositions> PlayerPositions { get; set; }
 
     public RoomData(){
             this.RoomId = -1;
