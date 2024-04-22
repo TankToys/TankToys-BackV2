@@ -3,7 +3,26 @@ using Microsoft.EntityFrameworkCore;
 using TankToys.Database;
 using TankToys.Services;
 
+var MyAllowSpecificOrigins = "AllowLocalhost";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyOrigin()
+        .AllowAnyHeader();
+    });
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+    });
+});
+
+
 
 var configuration = new ConfigurationBuilder()
            .AddJsonFile("appsettings.json")
@@ -24,7 +43,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt =>
+builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseNpgsql(configuration.GetConnectionString("PgDbConnection"));
 });
@@ -43,5 +62,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
