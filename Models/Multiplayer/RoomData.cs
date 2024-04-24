@@ -1,42 +1,34 @@
-
 using Newtonsoft.Json;
 
 namespace TankToys.Models.Multiplayer;
 
 public class RoomData
-{
-    [JsonProperty("roomId")]
-    public int RoomId { get; set; }
+{   
+    [JsonProperty("Id")]
+    public string Id { get; set; }
 
     [JsonProperty("playerPositions")]
-    public List<PlayerPositions> PlayerPositions { get; set; }
+    public Dictionary<string,PlayerPositions> PlayerPositions { get; set; }
 
     public RoomData(){
-            this.RoomId = -1;
-            this.PlayerPositions = [new PlayerPositions()];
+            this.Id = "-1";
+            this.PlayerPositions = [];
         }
 
-    public RoomData(int roomid, List<PlayerPositions> playerPositions){
-        this.RoomId = roomid;
+    public RoomData(string roomid, Dictionary<string,PlayerPositions> playerPositions){
+        this.Id = roomid;
         this.PlayerPositions = playerPositions;
     }
 
     public PlayerPositions GetPlayerPosition(string playerId){
-        foreach (var playerPosition in PlayerPositions)
-        {
-            if (playerPosition.GetPlayerId() == playerId) {
-                return playerPosition;
-            }
-        }
-
-        return null;
+        return PlayerPositions[playerId];
     }
     
-    public int GetRoomId(){
-        return this.RoomId;
+    public string GetRoomId(){
+        return this.Id;
     }
     
-    public void SetRoomId(int roomId){
-        this.RoomId = roomId;
+    public void SetRoomId(string roomId){
+        this.Id = roomId;
     }
 }

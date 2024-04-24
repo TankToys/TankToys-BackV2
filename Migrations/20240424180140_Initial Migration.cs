@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace TankToysBackV2.Migrations
 {
     /// <inheritdoc />
@@ -13,6 +11,18 @@ namespace TankToysBackV2.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "room_data",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    PlayerPositions = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_room_data", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "rooms",
                 columns: table => new
@@ -40,20 +50,14 @@ namespace TankToysBackV2.Migrations
                 {
                     table.PrimaryKey("PK_user", x => x.Id);
                 });
-
-            migrationBuilder.InsertData(
-                table: "user",
-                columns: new[] { "Id", "Level", "ProfileImage", "Username" },
-                values: new object[,]
-                {
-                    { "0x0000000000000000000000000000000000000000", 1, "", "TestUser1" },
-                    { "0x0000000000000000000000000000000000000001", 1, "", "TestUser2" }
-                });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "room_data");
+
             migrationBuilder.DropTable(
                 name: "rooms");
 

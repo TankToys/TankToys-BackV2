@@ -17,11 +17,18 @@ public class DatabaseService(AppDbContext context)
         return _context.SaveChanges();
     }
 
-    public int Insert<T>(T entity) where T : class
+    public int Insert<T>(T entity) where T : class, ITable
     {
         var dbEntity = ResolveEntity<T>(_context);
-        dbEntity.Add(entity);
-        return _context.SaveChanges();
+        try
+        {
+            dbEntity.Add(entity);
+            return _context.SaveChanges();
+        }
+        catch (System.Exception e)
+        {
+            return Update(entity);
+        }
     }
 
     public T SelectByKey<T>(string id) where T : class, ITable
@@ -35,7 +42,10 @@ public class DatabaseService(AppDbContext context)
     public int Update<T>(T entity) where T : class, ITable
     {
         var dbEntity = ResolveEntity<T>(_context);
-        dbEntity.Update(entity);
+        var oldEntity = dbEntity.Find(entity.Id); 
+        var entry = _context.Entry(oldEntity);
+        entry.CurrentValues.SetValues(entity);
+        _context.Update(entity);
         return _context.SaveChanges();
     }
 

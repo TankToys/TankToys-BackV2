@@ -1,10 +1,10 @@
 using TankToys.Models;
+using TankToys.Models.Multiplayer;
 
 namespace TankToys.Services;
 
-public class MultiplayerService(DatabaseService db, RoomService rooms)
+public class MultiplayerService(RoomService rooms)
 {
-    private readonly DatabaseService DB = db;
 
     private readonly RoomService Rooms = rooms;
 
@@ -22,6 +22,14 @@ public class MultiplayerService(DatabaseService db, RoomService rooms)
                 
         return Rooms.InsertRoom(thisRoom) ? thisRoom.Id : "";
     }
+
+    public Room GetRoom(string roomId)
+    {
+        var room = Rooms.GetRoomById(roomId);
+        return room;
+    }
+
+
     public bool AddGuestToRoom(string roomId, Address guest)
     {
         Room thisRoom = Rooms.GetRoomById(roomId);
@@ -66,6 +74,19 @@ public class MultiplayerService(DatabaseService db, RoomService rooms)
     public bool CloseRoom(object roomId, Address address)
     {
         throw new NotImplementedException();
+    }
+
+    public RoomData ConductRoomData(RoomData roomData)
+    {
+        var room = Rooms.GetRoomData(roomData.Id);
+        if (room == null)
+        {
+            Rooms.SetRoomData(roomData);
+            return roomData;
+        }
+        room.PlayerPositions[roomData.PlayerPositions.Keys.First()] = roomData.PlayerPositions.Values.First();
+        Rooms.SetRoomData(room);
+        return room;
     }
 
 }

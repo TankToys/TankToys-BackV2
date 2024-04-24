@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TankToys.Models;
+using TankToys.Models.Multiplayer;
 
 namespace TankToys.Database;
 
@@ -14,16 +15,16 @@ public class AppDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<User>().HasData(
-            new User {Id = "0x0000000000000000000000000000000000000000", Level = 1, ProfileImage = "", Username = "TestUser1"},
-            new User {Id = "0x0000000000000000000000000000000000000001", Level = 1, ProfileImage = "", Username = "TestUser2"}
-        );
+        builder.Entity<User>();
 
         builder.Entity<Room>();
+
+        builder.Entity<RoomDataTable>();
 
         base.OnModelCreating(builder);
     }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Room> Rooms { get; set; }
+    public DbSet<RoomDataTable> RoomDataTable { get; set; }
 }

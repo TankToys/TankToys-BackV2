@@ -22,6 +22,20 @@ namespace TankToysBackV2.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("TankToys.Models.Multiplayer.RoomDataTable", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PlayerPositions")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("room_data");
+                });
+
             modelBuilder.Entity("TankToys.Models.Room", b =>
                 {
                     b.Property<string>("Id")
@@ -62,22 +76,6 @@ namespace TankToysBackV2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("user");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0x0000000000000000000000000000000000000000",
-                            Level = 1,
-                            ProfileImage = "",
-                            Username = "TestUser1"
-                        },
-                        new
-                        {
-                            Id = "0x0000000000000000000000000000000000000001",
-                            Level = 1,
-                            ProfileImage = "",
-                            Username = "TestUser2"
-                        });
                 });
 #pragma warning restore 612, 618
         }

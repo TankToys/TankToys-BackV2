@@ -53,11 +53,11 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
     }
 
     [HttpPost]
-    [Route("data/{roomId}")]
-    public bool Data(string roomId, [FromBody]RoomData room){
-        if (room.GetRoomId() != -1) { // good room
-			_logger.LogDebug(roomId);
+    [Route("data")]
+    public RoomData Data([FromBody]RoomData room){
+        if (_multiplayerService.GetRoom(room.Id) != null) {
+			return _multiplayerService.ConductRoomData(room);
         }
-        return false;
+        return null;
     }
 }
