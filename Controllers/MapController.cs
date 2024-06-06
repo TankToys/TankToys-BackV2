@@ -29,6 +29,7 @@ public class MapController(MapService mapService) : Controller
         if (_mapService.InsertMap(map)) {
             return true;
         }
+        Response.StatusCode = 400;
         return false;
     }
 
@@ -37,6 +38,7 @@ public class MapController(MapService mapService) : Controller
         if (_mapService.EditMap(map)) {
             return true;
         }
+        Response.StatusCode = 400;
         return false;
     }
 
@@ -47,6 +49,7 @@ public class MapController(MapService mapService) : Controller
         if (_mapService.DeleteMap(id)) {
             return true;
         }
+        Response.StatusCode = 400;
         return false;
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TankToys.Models;
 using TankToys.Services;
+using TankToys.Utils;
 
 namespace TankToys.Controllers;
 
@@ -17,11 +18,10 @@ public class UserController(ILogger<UserController> logger, UserService userServ
     {
         User user = _userService.GetUserByAddress(address);
 		if (user.Username != null) {
-            //String k = CustomJWT.encode(user);
-			//return k;
-            return "Not implemented";
+            return JWT.GenerateJWTToken(user);
 		}
-		return null;
+		Response.StatusCode = 400;
+        return null;
     }
 
     [HttpPost]
@@ -30,6 +30,7 @@ public class UserController(ILogger<UserController> logger, UserService userServ
         if (_userService.InsertUser(requestUser)) {
             return requestUser;
         }
+        Response.StatusCode = 400;
         return null;
     }
 
@@ -39,6 +40,7 @@ public class UserController(ILogger<UserController> logger, UserService userServ
         if (_userService.EditUser(requestUser)) {
             return requestUser;
         }
+        Response.StatusCode = 400;
         return null;
     }
 
@@ -49,6 +51,7 @@ public class UserController(ILogger<UserController> logger, UserService userServ
         if (_userService.DeleteUser(address)) {
             return true;
         }
+        Response.StatusCode = 400;
         return false;
     }
 }

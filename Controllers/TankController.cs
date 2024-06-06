@@ -21,7 +21,6 @@ public class TankController(TankService tankService) : Controller
     [Route("creator/{address}")]
     public List<Tank> GetTanksByCreatorAddress(string address)
     {
-        
         return _tankService.GetTanksByCreatorAddress(address);
     }
 

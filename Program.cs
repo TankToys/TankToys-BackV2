@@ -1,5 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.IdentityModel.Tokens;
 using TankToys.Database;
 using TankToys.Services;
 
@@ -22,12 +24,30 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-
 var configuration = new ConfigurationBuilder()
            .AddJsonFile("appsettings.json")
            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
            .Build();
+
+builder.Services.AddAuthentication(cfg => {
+    cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x => {
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = false;
+    x.TokenValidationParameters = new TokenValidationParameters {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8
+            .GetBytes(configuration["ApplicationSettings:JWT_Secret"])
+        ),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 
 // Add services to the container.
 builder.Services.AddScoped<DatabaseService, DatabaseService>();

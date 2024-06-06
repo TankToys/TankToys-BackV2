@@ -25,6 +25,7 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
         if (_multiplayerService.AddGuestToRoom(body.RoomId, Address.Parse(body.PlayerId))) {
             return true;
         }
+        Response.StatusCode = 404;
         return false;
     }
 
@@ -34,10 +35,10 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
     {
         if (_multiplayerService.RemoveGuestFromRoom(body.RoomId, Address.Parse(body.PlayerId)))
         {
-            HttpContext.Response.StatusCode = 200;    
+            Response.StatusCode = 200;    
             return true;
         }
-        HttpContext.Response.StatusCode = 400;
+        Response.StatusCode = 400;
         return false;
     }
 
@@ -48,7 +49,7 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
         if (_multiplayerService.CloseRoom(body.RoomId, Address.Parse(body.PlayerId))) {
             return true;
         }  
-        HttpContext.Response.StatusCode = 400;
+        Response.StatusCode = 400;
         return false;
     }
 
@@ -58,6 +59,7 @@ public class MultiplayerController(ILogger<MultiplayerController> logger, Multip
         if (_multiplayerService.GetRoom(room.Id) != null) {
 			return _multiplayerService.ConductRoomData(room);
         }
+        Response.StatusCode = 400;
         return null;
     }
 }

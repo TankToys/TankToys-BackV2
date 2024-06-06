@@ -14,8 +14,8 @@ public class UserService(DatabaseService db)
 
     public User GetUserByAddress(string address)
     {
-        User user = new User();
-        DB.SelectByKey<User>(address);
+        User user = new();
+        user = DB.SelectByKey<User>(address);
         if (user.Username == "default")
         {
             user.Username = null;

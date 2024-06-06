@@ -12,8 +12,8 @@ using TankToys.Database;
 namespace TankToysBackV2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240424180140_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20240527175052_Supabase migration")]
+    partial class Supabasemigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
